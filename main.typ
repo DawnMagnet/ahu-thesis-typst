@@ -13,8 +13,8 @@
 
 #show: ahuthesis.with(
   // ---- 基本设置 ----
-  degree: "doctor", // "bachelor" | "master" | "doctor" | "postdoc"
-  degree-type: "academic", // "academic" | "professional"
+  degree: "master", // "bachelor" | "master" | "doctor" | "postdoc"
+  degree-type: "professional", // "academic" | "professional"
   language: "chinese", // "chinese" | "english"
   output: "print", // "print" | "electronic"
 
