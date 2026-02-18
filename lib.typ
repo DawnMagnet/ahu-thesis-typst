@@ -197,8 +197,7 @@
   show figure.caption: it => {
     set text(size: font-size.wuhao)
     if is-graduate {
-      set text(weight: "bold")
-      it
+      fake-bold(it)
     } else {
       it
     }

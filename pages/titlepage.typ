@@ -91,13 +91,13 @@
 
   // 中图分类号和论文编号
   {
-    set text(size: font-size.wuhao, font: font-heiti, weight: "bold")
-    grid(
+    set text(size: font-size.wuhao, font: font-heiti)
+    fake-bold(grid(
       columns: (auto,),
       row-gutter: 2mm,
-      [中图分类号: #text(weight: "bold", info.at("clc", default: ""))],
+      [中图分类号: #info.at("clc", default: "")],
       [论文编号: 10357#info.at("student-id", default: "")],
-    )
+    ))
   }
 
   v(107pt)
@@ -112,12 +112,13 @@
     }
   })
 
-  v(70pt)
+  v(80pt)
 
   // 论文标题
   align(center, {
-    set text(size: font-size.xiaoyi, font: font-heiti, weight: "bold")
-    info.at("title", default: "")
+    set text(size: font-size.xiaoyi, font: font-heiti)
+    set par(leading: 1.25em)
+    fake-bold(info.at("title", default: ""))
   })
 
   v(1fr)
@@ -176,10 +177,8 @@
 
   // 标题
   align(center, {
-    set text(size: font-size.xiaochu, weight: "bold")
-    [安徽大学]
-    linebreak()
-    [本科毕业论文 (设计、创作)]
+    set text(size: font-size.xiaochu)
+    fake-bold([安徽大学] + linebreak() + [本科毕业论文 (设计、创作)])
   })
 
   v(1fr)
@@ -294,10 +293,8 @@
 
   // 标题
   align(center, {
-    set text(font: font-sans, size: font-size.xiaoer, weight: "bold")
-    text(spacing: 150%)[安徽大学]
-    linebreak()
-    text(spacing: 50%)[博士后研究工作报告]
+    set text(font: font-sans, size: font-size.xiaoer)
+    fake-bold(text(spacing: 150%)[安徽大学] + linebreak() + text(spacing: 50%)[博士后研究工作报告])
   })
 
   v(0.2cm)

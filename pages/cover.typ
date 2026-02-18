@@ -30,13 +30,13 @@
 
   // 中图分类号和论文编号
   {
-    set text(size: font-size.wuhao, font: font-heiti, weight: "bold")
-    grid(
+    set text(size: font-size.wuhao, font: font-heiti)
+    fake-bold(grid(
       columns: (auto,),
       row-gutter: 2mm,
-      [中图分类号: #text(weight: "bold", info.at("clc", default: ""))],
+      [中图分类号: #info.at("clc", default: "")],
       [论文编号: 10357#info.at("student-id", default: "")],
-    )
+    ))
   }
 
   // 学校 Logo
@@ -64,13 +64,14 @@
   })
 
   // 论文标题
-  v(32mm)
+  v(20mm)
   align(center, {
-    set text(size: 32pt, weight: "bold")
-    info.at("title", default: "")
+    set text(size: 32pt)
+    set par(leading: 1.25em)
+    fake-bold(info.at("title", default: ""))
   })
 
-  v(1fr)
+  v(15mm)
 
   // 作者信息表格
   align(center, {
@@ -134,17 +135,45 @@
 
   // 垂直排列的文字块（每个字符放在固定宽度的 box 中，保证对齐）
   let char-size = 1.2em
+  // 垂直排列文字，自动处理中英文混排
+  // CJK 字符竖排，英文单词/短语顺时针旋转90度（阅读方向从上到下）
   let vertical-text(body) = {
-    for c in str(body) {
-      let is-ascii = c.match(regex("[A-Za-z0-9 ]")) != none
-      box(width: char-size, height: char-size, align(center + horizon, {
-        if is-ascii {
-          text(font: font-main-en, c)
-        } else {
-          c
+    let s = str(body)
+    let chunks = ()
+    let buf = ""
+    let is-last-ascii = false
+
+    // 分组处理
+    for c in s {
+      let is-ascii = c.match(regex("[A-Za-z0-9\s]")) != none
+      if buf == "" {
+        buf = c
+        is-last-ascii = is-ascii
+      } else if is-ascii == is-last-ascii {
+        buf += c
+      } else {
+        chunks.push((text: buf, ascii: is-last-ascii))
+        buf = c
+        is-last-ascii = is-ascii
+      }
+    }
+    if buf != "" {
+      chunks.push((text: buf, ascii: is-last-ascii))
+    }
+
+    // 渲染
+    for chunk in chunks {
+      if chunk.ascii {
+        // 英文部分顺时针旋转90度
+        box(width: 1.2em, align(center + horizon, rotate(90deg, reflow: true, text(font: font-main-en, chunk.text))))
+        linebreak()
+      } else {
+        // 中文部分逐字竖排
+        for c in chunk.text {
+          box(width: 1.2em, height: 1.2em, align(center + horizon, c))
+          linebreak()
         }
-      }))
-      linebreak()
+      }
     }
   }
 

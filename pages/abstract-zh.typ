@@ -38,9 +38,9 @@
   par({
     v(0.5em)
     if is-graduate {
-      text(font: font-sans, weight: "bold")[关键词:]
+      fake-bold(text(font: font-sans)[关键词:])
     } else {
-      text(weight: "bold")[关键词:]
+      fake-bold([关键词:])
     }
     [ ]
     keywords.join("; ")

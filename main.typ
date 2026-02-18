@@ -2,7 +2,7 @@
 // 安徽大学学位论文 Typst 模板 — 使用示例
 // =========================================================================
 //
-// 编译: typst compile main.typ
+// 编译: typst compile maitypn.typ
 //
 // 模板文件: templates/master.typ  — 硕士学位论文模板
 //           templates/doctor.typ  — 博士学位论文模板
@@ -19,7 +19,7 @@
   output: "print", // "print" | "electronic"
 
   // ---- 论文信息 ----
-  title: "安徽大学学位论文 Typst 模板使用示例文档",
+  title: "安徽大学学位论文Typst模板使用示例文档",
   title-en: "An Introduction to Typst Thesis Template of Anhui University",
   author: "作者姓名",
   author-en: "Name",

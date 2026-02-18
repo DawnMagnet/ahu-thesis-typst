@@ -9,6 +9,11 @@
 /// 中文黑体
 #let font-heiti = ("SimHei", "Noto Sans CJK SC", "Source Han Sans SC", "STHeiti")
 
+/// 伪粗体（通过描边模拟）
+#let fake-bold(body, thickness: 0.3pt) = {
+  text(stroke: (paint: black, thickness: thickness), body)
+}
+
 /// 中文楷体
 #let font-kaiti = ("KaiTi", "STKaiti", "FandolKai")
 

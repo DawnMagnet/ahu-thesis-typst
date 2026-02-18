@@ -39,14 +39,16 @@
 
     if is-bachelor {
       // 本科: 15bp 居中黑体
-      set text(font: font-sans, size: 15pt, weight: "bold")
+      set text(font: font-sans, size: 15pt)
       set block(above: 30pt, below: 20pt)
       align(center, {
-        if it.numbering != none {
-          counter(heading).display(it.numbering)
-          h(1em)
-        }
-        it.body
+        fake-bold({
+          if it.numbering != none {
+            counter(heading).display(it.numbering)
+            h(1em)
+          }
+          it.body
+        })
       })
     } else {
       // 研究生: 16bp 居中黑体
