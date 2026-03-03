@@ -59,6 +59,7 @@
 /// - sub-discipline (str): 二级学科
 /// - sub-discipline-en (str): 二级学科（英文）
 /// - professional-field (str): 专业学位领域
+/// - research-direction (str): 研究方向
 /// - degree-category (str): 学位类别名称
 /// - degree-category-en (str): 学位类别名称（英文）
 /// - date (datetime): 论文提交日期
@@ -102,6 +103,7 @@
   sub-discipline: "基础数学",
   sub-discipline-en: "Pure Mathematics",
   professional-field: "",
+  research-direction: "",
   degree-category: "理学博士",
   degree-category-en: "Doctor of Philosophy",
   // ---- 日期 ----
@@ -146,6 +148,7 @@
     sub-discipline: sub-discipline,
     sub-discipline-en: sub-discipline-en,
     professional-field: professional-field,
+    research-direction: research-direction,
     degree-category: degree-category,
     degree-category-en: degree-category-en,
     date: date,

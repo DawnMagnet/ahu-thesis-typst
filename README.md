@@ -59,18 +59,19 @@ cargo install --git https://github.com/typst/typst --locked typst-cli
 
 模板依赖以下字体，请确保系统中已安装：
 
-| 用途 | 字体名称 | 备注 |
-|------|----------|------|
-| 中文宋体 | SimSun / Noto Serif CJK SC / Source Han Serif SC | 正文主字体 |
-| 中文黑体 | SimHei / Noto Sans CJK SC / Source Han Sans SC | 标题字体 |
-| 中文楷体 | KaiTi / STKaiti | 部分引用使用 |
-| 中文仿宋 | FangSong | 版权声明等 |
-| 西文衬线 | Times New Roman / TeX Gyre Termes | 西文正文 |
-| 西文无衬线 | Arial / TeX Gyre Heros | 西文标题 |
-| 华文行楷 | STXingkai | 封面大标题 (已内置于 `fonts/` 目录) |
+| 用途       | 字体名称                                         | 备注                                |
+| ---------- | ------------------------------------------------ | ----------------------------------- |
+| 中文宋体   | SimSun / Noto Serif CJK SC / Source Han Serif SC | 正文主字体                          |
+| 中文黑体   | SimHei / Noto Sans CJK SC / Source Han Sans SC   | 标题字体                            |
+| 中文楷体   | KaiTi / STKaiti                                  | 部分引用使用                        |
+| 中文仿宋   | FangSong                                         | 版权声明等                          |
+| 西文衬线   | Times New Roman / TeX Gyre Termes                | 西文正文                            |
+| 西文无衬线 | Arial / TeX Gyre Heros                           | 西文标题                            |
+| 华文行楷   | STXingkai                                        | 封面大标题 (已内置于 `fonts/` 目录) |
 
 > [!TIP]
 > **Linux 用户**: 推荐安装 Noto CJK 字体系列 (`noto-fonts-cjk`)。如使用 Arch Linux:
+>
 > ```bash
 > pacman -S noto-fonts-cjk noto-fonts
 > ```
@@ -93,9 +94,9 @@ cd ahu-thesis-typst
 
 项目提供了两种预配置的论文模板：
 
-| 模板文件 | 学位类型 | 说明 |
-|----------|----------|------|
-| `templates/master.typ` | 硕士学位论文 | 学术型/专业型硕士，5 章结构 |
+| 模板文件               | 学位类型     | 说明                         |
+| ---------------------- | ------------ | ---------------------------- |
+| `templates/master.typ` | 硕士学位论文 | 学术型/专业型硕士，5 章结构  |
 | `templates/doctor.typ` | 博士学位论文 | 博士论文，7 章结构，含书脊页 |
 
 将模板复制到项目根目录作为你的论文主文件：
@@ -109,7 +110,7 @@ cp templates/doctor.typ main.typ
 ```
 
 > [!IMPORTANT]
-> 复制到根目录后，请将 `main.typ` 中的 `#import "../lib.typ": *` 修改为 `#import "lib.typ": *`，将 bibliography-file 中的 `"../refs.bib"` 修改为 `"refs.bib"`。
+> 复制到根目录后，请将 `main.typ` 中的 `#import "../template/lib.typ": *` 修改为 `#import "lib.typ": *`，将 bibliography-file 中的 `"../refs.bib"` 修改为 `"refs.bib"`。
 
 ### 3. 编辑论文配置
 
@@ -159,84 +160,84 @@ typst compile main.typ
 
 ### 基本设置
 
-| 参数 | 类型 | 默认值 | 可选值 | 说明 |
-|------|------|--------|--------|------|
-| `degree` | `str` | `"doctor"` | `"bachelor"` \| `"master"` \| `"doctor"` \| `"postdoc"` | 学位类型 |
-| `degree-type` | `str` | `"academic"` | `"academic"` \| `"professional"` | 学位类别（学术型/专业型） |
-| `language` | `str` | `"chinese"` | `"chinese"` \| `"english"` | 论文主语言 |
-| `output` | `str` | `"print"` | `"print"` \| `"electronic"` | 输出格式 |
+| 参数          | 类型  | 默认值       | 可选值                                                  | 说明                      |
+| ------------- | ----- | ------------ | ------------------------------------------------------- | ------------------------- |
+| `degree`      | `str` | `"doctor"`   | `"bachelor"` \| `"master"` \| `"doctor"` \| `"postdoc"` | 学位类型                  |
+| `degree-type` | `str` | `"academic"` | `"academic"` \| `"professional"`                        | 学位类别（学术型/专业型） |
+| `language`    | `str` | `"chinese"`  | `"chinese"` \| `"english"`                              | 论文主语言                |
+| `output`      | `str` | `"print"`    | `"print"` \| `"electronic"`                             | 输出格式                  |
 
 ### 论文信息
 
-| 参数 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| `title` | `str` | 中文标题 | `"基于深度学习的图像分类研究"` |
-| `title-en` | `str` | 英文标题 | `"Image Classification Based on Deep Learning"` |
-| `author` | `str` | 作者姓名 | `"张三"` |
-| `author-en` | `str` | 作者英文名 | `"San Zhang"` |
-| `student-id` | `str` | 学号 | `"A20614045"` |
-| `supervisor` | `str` | 导师姓名 | `"李四"` |
-| `supervisor-en` | `str` | 导师英文名 | `"Si Li"` |
-| `professional-rank` | `str` | 导师职称 | `"教授"` |
+| 参数                | 类型  | 说明       | 示例                                            |
+| ------------------- | ----- | ---------- | ----------------------------------------------- |
+| `title`             | `str` | 中文标题   | `"基于深度学习的图像分类研究"`                  |
+| `title-en`          | `str` | 英文标题   | `"Image Classification Based on Deep Learning"` |
+| `author`            | `str` | 作者姓名   | `"张三"`                                        |
+| `author-en`         | `str` | 作者英文名 | `"San Zhang"`                                   |
+| `student-id`        | `str` | 学号       | `"A20614045"`                                   |
+| `supervisor`        | `str` | 导师姓名   | `"李四"`                                        |
+| `supervisor-en`     | `str` | 导师英文名 | `"Si Li"`                                       |
+| `professional-rank` | `str` | 导师职称   | `"教授"`                                        |
 
 ### 学科信息
 
-| 参数 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| `department` | `str` | 培养单位 | `"计算机科学与技术学院"` |
-| `discipline` | `str` | 一级学科 | `"计算机科学与技术"` |
-| `discipline-en` | `str` | 一级学科（英文） | `"Computer Science"` |
-| `sub-discipline` | `str` | 二级学科 | `"人工智能"` |
-| `sub-discipline-en` | `str` | 二级学科（英文） | `"Artificial Intelligence"` |
-| `professional-field` | `str` | 专业学位领域（专业型硕士使用） | `"电子信息"` |
-| `degree-category` | `str` | 学位类别名称 | `"工学博士"` / `"理学硕士"` |
-| `degree-category-en` | `str` | 学位类别名称（英文） | `"Doctor of Engineering"` |
+| 参数                 | 类型  | 说明                           | 示例                        |
+| -------------------- | ----- | ------------------------------ | --------------------------- |
+| `department`         | `str` | 培养单位                       | `"计算机科学与技术学院"`    |
+| `discipline`         | `str` | 一级学科                       | `"计算机科学与技术"`        |
+| `discipline-en`      | `str` | 一级学科（英文）               | `"Computer Science"`        |
+| `sub-discipline`     | `str` | 二级学科                       | `"人工智能"`                |
+| `sub-discipline-en`  | `str` | 二级学科（英文）               | `"Artificial Intelligence"` |
+| `professional-field` | `str` | 专业学位领域（专业型硕士使用） | `"电子信息"`                |
+| `degree-category`    | `str` | 学位类别名称                   | `"工学博士"` / `"理学硕士"` |
+| `degree-category-en` | `str` | 学位类别名称（英文）           | `"Doctor of Engineering"`   |
 
 ### 日期与编号
 
-| 参数 | 类型 | 默认值 | 说明 | 示例 |
-|------|------|--------|------|------|
-| `clc` | `str` | `""` | 中图分类号 | `"TP391.4"` |
-| `date` | `datetime` | `datetime.today()` | 论文提交日期 | `datetime(year: 2025, month: 6, day: 1)` |
-| `start-date` | `str` | `none` | 学习开始日期 | `"2021-09-01"` |
-| `end-date` | `str` | `none` | 学习结束日期 | `"2024-06-01"` |
-| `defense-date` | `str` | `none` | 答辩日期 | `"2024-05-20"` |
+| 参数           | 类型       | 默认值             | 说明         | 示例                                     |
+| -------------- | ---------- | ------------------ | ------------ | ---------------------------------------- |
+| `clc`          | `str`      | `""`               | 中图分类号   | `"TP391.4"`                              |
+| `date`         | `datetime` | `datetime.today()` | 论文提交日期 | `datetime(year: 2025, month: 6, day: 1)` |
+| `start-date`   | `str`      | `none`             | 学习开始日期 | `"2021-09-01"`                           |
+| `end-date`     | `str`      | `none`             | 学习结束日期 | `"2024-06-01"`                           |
+| `defense-date` | `str`      | `none`             | 答辩日期     | `"2024-05-20"`                           |
 
 ### 封面选项
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
+| 参数            | 类型   | 默认值  | 说明                               |
+| --------------- | ------ | ------- | ---------------------------------- |
 | `include-spine` | `bool` | `false` | 是否生成书脊页（博士论文建议开启） |
-| `spine-date` | `str` | `""` | 书脊年份 |
-| `nocolor` | `bool` | `false` | 是否使用黑白 Logo（打印版可开启） |
+| `spine-date`    | `str`  | `""`    | 书脊年份                           |
+| `nocolor`       | `bool` | `false` | 是否使用黑白 Logo（打印版可开启）  |
 
 ### 参考文献
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `bibliography-file` | `str` | `none` | BibTeX 文件路径 |
-| `bibliography-style` | `str` | `"gb-7714-2015-numeric"` | 参考文献样式 |
+| 参数                 | 类型  | 默认值                   | 说明            |
+| -------------------- | ----- | ------------------------ | --------------- |
+| `bibliography-file`  | `str` | `none`                   | BibTeX 文件路径 |
+| `bibliography-style` | `str` | `"gb-7714-2015-numeric"` | 参考文献样式    |
 
 > [!NOTE]
 > Typst 内置支持 GB/T 7714-2015 标准的数字编号格式 (`gb-7714-2015-numeric`) 和作者-年份格式 (`gb-7714-2015-author-date`)。
 
 ### 前置内容
 
-| 参数 | 类型 | 说明 |
-|------|------|------|
-| `abstract-zh-body` | `content` | 中文摘要内容 |
-| `abstract-zh-keywords` | `array` | 中文关键词数组 |
-| `abstract-en-body` | `content` | 英文摘要内容 |
-| `abstract-en-keywords` | `array` | 英文关键词数组 |
-| `denotation-items` | `array` | 符号表项，格式为 `(($符号$, "说明"), ...)` |
+| 参数                   | 类型      | 说明                                       |
+| ---------------------- | --------- | ------------------------------------------ |
+| `abstract-zh-body`     | `content` | 中文摘要内容                               |
+| `abstract-zh-keywords` | `array`   | 中文关键词数组                             |
+| `abstract-en-body`     | `content` | 英文摘要内容                               |
+| `abstract-en-keywords` | `array`   | 英文关键词数组                             |
+| `denotation-items`     | `array`   | 符号表项，格式为 `(($符号$, "说明"), ...)` |
 
 ### 后置内容
 
-| 参数 | 类型 | 说明 |
-|------|------|------|
-| `acknowledgements-body` | `content` | 致谢内容 |
-| `resume-body` | `content` | 个人简历及学术成果 |
-| `appendix-body` | `content` | 附录内容（可选） |
+| 参数                    | 类型      | 说明               |
+| ----------------------- | --------- | ------------------ |
+| `acknowledgements-body` | `content` | 致谢内容           |
+| `resume-body`           | `content` | 个人简历及学术成果 |
+| `appendix-body`         | `content` | 附录内容（可选）   |
 
 ---
 
@@ -428,22 +429,22 @@ degree: "bachelor",
 
 模板按照学校规范自动生成以下部分（按装订顺序）：
 
-| 序号 | 部分 | 说明 |
-|------|------|------|
-| 1 | 封面 | 研究生含学校 Logo 和学位论文大标题 |
-| 2 | 书脊 | 可选，竖排标题、作者、学校、年份 |
-| 3 | 英文提名页 | 英文标题、学位类别、作者与导师 |
-| 4 | 中文提名页 | 中文信息表格：作者、导师、学科等 |
-| 5 | 版权声明 | 独创性声明 & 使用授权书 |
-| 6 | 中文摘要 | 摘要正文 + 关键词 |
-| 7 | 英文摘要 | Abstract + Keywords |
-| 8 | 目录 | 自动生成，三级标题 |
-| 9 | 符号表 | 可选 |
-| 10 | **正文** | 用户撰写 |
-| 11 | 参考文献 | 自动从 `.bib` 生成 |
-| 12 | 附录 | 可选 |
-| 13 | 致谢 | |
-| 14 | 个人简历 | 含学术成果 |
+| 序号 | 部分       | 说明                               |
+| ---- | ---------- | ---------------------------------- |
+| 1    | 封面       | 研究生含学校 Logo 和学位论文大标题 |
+| 2    | 书脊       | 可选，竖排标题、作者、学校、年份   |
+| 3    | 英文提名页 | 英文标题、学位类别、作者与导师     |
+| 4    | 中文提名页 | 中文信息表格：作者、导师、学科等   |
+| 5    | 版权声明   | 独创性声明 & 使用授权书            |
+| 6    | 中文摘要   | 摘要正文 + 关键词                  |
+| 7    | 英文摘要   | Abstract + Keywords                |
+| 8    | 目录       | 自动生成，三级标题                 |
+| 9    | 符号表     | 可选                               |
+| 10   | **正文**   | 用户撰写                           |
+| 11   | 参考文献   | 自动从 `.bib` 生成                 |
+| 12   | 附录       | 可选                               |
+| 13   | 致谢       |                                    |
+| 14   | 个人简历   | 含学术成果                         |
 
 ---
 

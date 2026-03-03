@@ -133,7 +133,8 @@
         row-gutter: 3mm,
         [作者姓名], info.at("author", default: ""), [申请学位级别], [专业硕士],
         [指导教师姓名], info.at("supervisor", default: ""), [职#h(2em)称], info.at("professional-rank", default: ""),
-        [专业名称], info.at("professional-field", default: ""), [研究方向], [],
+        [专业名称], info.at("professional-field", default: ""), [研究方向], info.at("research-direction", default: ""),
+
         [学习时间自],
         format-date(info.at("start-date", default: "")),
         [#h(2em)起至],
