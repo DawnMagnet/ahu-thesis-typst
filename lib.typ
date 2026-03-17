@@ -192,14 +192,22 @@
   // 表的标题置于表上方
   show figure.where(kind: table): set figure.caption(position: top)
 
+  // 图题/表题（五号，加粗，中文宋体，英文TNR）
   show figure.caption: it => {
-    set text(size: font-size.wuhao)
+    set text(size: font-size.wuhao, font: font-main)
     if is-graduate {
       fake-bold(it)
     } else {
       it
     }
   }
+
+  // 表格内容（五号，中文宋体，英文TNR）
+  set table(stroke: 0.5pt)
+  show table.cell: set text(size: font-size.wuhao, font: font-main)
+
+  // 引用上角标
+  show cite: it => super(it)
 
   // ========== 前置部分（无页码） ==========
   set page(header: none, footer: none, numbering: none)
@@ -225,6 +233,10 @@
   // 3. 版权声明
   make-copyright-page(degree: degree)
 
+  // ========== 前置部分（摘要至正文前，页码五号TNR居中） ==========
+  set page(..make-frontmatter-footer(), numbering: "I")
+  counter(page).update(1)
+
   // 4. 中文摘要
   if abstract-zh-body != none {
     abstract-zh(degree: degree, language: language, keywords: abstract-zh-keywords, abstract-zh-body)
@@ -236,21 +248,33 @@
   }
 
   // 6. 目录
+  // "目录"字样（小二，黑体，加粗）
   {
-    set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
+    set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.xiaoer })
     align(center, {
-      v(if degree == "bachelor" { 40pt } else { 27pt })
-      names.at("contents")
-      v(if degree == "bachelor" { 20pt } else { 27pt })
+      v(if degree == "bachelor" { 40pt } else { 50pt })
+      fake-bold(names.at("contents"))
+      v(if degree == "bachelor" { 20pt } else { 30pt })
     })
   }
 
   {
-    set par(leading: 1em, spacing: 1em)
-    set text(size: 12pt)
+    // 目录条目样式
+    set par(leading: 1.5em, spacing: 1.5em)
+    // 章标题（一级）：小四，行距1.5行，段前0.5行，中文黑体，英文TNR
     show outline.entry.where(level: 1): it => {
-      set text(font: font-sans)
+      set text(font: font-main-en + font-heiti, size: font-size.xiaosi)
       v(6pt, weak: true)
+      it
+    }
+    // 节标题（二级）：小四，行距1.5行，中文宋体，英文TNR
+    show outline.entry.where(level: 2): it => {
+      set text(font: font-main, size: font-size.xiaosi)
+      it
+    }
+    // 条标题（三级）：五号，行距1.5行，中文宋体，英文TNR
+    show outline.entry.where(level: 3): it => {
+      set text(font: font-main, size: font-size.wuhao)
       it
     }
     outline(title: none, depth: 3, indent: 1em)
@@ -264,8 +288,13 @@
   }
 
   // ========== 正文部分 ==========
-  // 切换为正文页面设置
-  set page(margin: margin, ..make-header-footer(degree: degree, language: language), numbering: "1")
+  // 切换为正文页面设置（页眉上边距15mm）
+  set page(
+    margin: margin,
+    header-ascent: 10mm,
+    ..make-header-footer(degree: degree, language: language),
+    numbering: "1",
+  )
   counter(page).update(1)
 
   // 应用标题样式
@@ -276,15 +305,15 @@
 
   // ========== 后置部分 ==========
 
-  // 参考文献
+  // 参考文献标题（三号，居中，加粗，行距1行，段前0.5行，段后0.5行）
   if bibliography-file != none {
     pagebreak()
     {
-      set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
+      set text(font: font-main, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
+      set par(leading: 1em)
+      set block(above: 0.5em, below: 0.5em)
       align(center, {
-        v(if degree == "bachelor" { 40pt } else { 27pt })
-        names.at("bibliography")
-        v(if degree == "bachelor" { 20pt } else { 27pt })
+        fake-bold(names.at("bibliography"))
       })
     }
     {

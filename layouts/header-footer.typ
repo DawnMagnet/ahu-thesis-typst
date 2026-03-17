@@ -1,7 +1,7 @@
 // 页眉页脚模块
 // 根据学位类型配置页眉页脚
 
-#import "../utils/fonts.typ": font-size, font-songti, font-heiti
+#import "../utils/fonts.typ": font-size, font-songti, font-heiti, font-main, font-main-en
 
 /// 生成正文页眉页脚
 /// - degree: 学位类型
@@ -15,30 +15,29 @@
         let page-num = here().page()
         let is-odd = calc.rem(page-num, 2) == 1
 
-        set text(size: font-size.wuhao)
+        set text(size: font-size.xiaowu, font: font-songti)
 
         if is-odd {
-          // 奇数页：安徽大学学位论文
+          // 奇数页：安徽大学硕士学位论文
           align(center, {
-            if language == "chinese" {
-              [安徽大学学位论文]
-            } else {
-              [Anhui University]
+            if degree == "master" {
+              [安徽大学硕士学位论文]
+            } else if degree == "doctor" {
+              [安徽大学博士学位论文]
             }
           })
         } else {
-          // 偶数页：章标题
+          // 偶数页：章序及章标题，例如：第一章 绪论
           align(center, {
             context {
-              // 获取当前章标题
               let elems = query(heading.where(level: 1).before(here()))
               if elems.len() > 0 {
                 let last = elems.last()
-                if language == "chinese" {
-                  last.body
-                } else {
-                  upper(last.body)
+                if last.numbering != none {
+                  numbering(last.numbering, ..counter(heading).at(last.location()))
+                  h(1em)
                 }
+                last.body
               }
             }
           })
@@ -52,13 +51,24 @@
     },
 
     footer: {
-      set text(size: if degree == "bachelor" { font-size.xiaowu } else { font-size.wuhao })
+      set text(size: font-size.wuhao)
       align(center, context { counter(page).display("1") })
     },
   )
 }
 
-/// 空白页眉页脚（用于前置页）
+/// 前置部分页脚（摘要至正文前，罗马数字页码）
+#let make-frontmatter-footer() = {
+  (
+    header: none,
+    footer: {
+      set text(size: font-size.wuhao, font: font-main-en)
+      align(center, context { counter(page).display("I") })
+    },
+  )
+}
+
+/// 空白页眉页脚（用于封面等前置页）
 #let empty-header-footer = (
   header: none,
   footer: none,

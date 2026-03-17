@@ -32,7 +32,8 @@
     }
   })
 
-  // 章标题（level 1）
+  // 章标题（level 1）：三号，居中，加粗，段前0.5行，段后0.5行，行距1行
+  // 中文宋体，英文 Times New Roman
   show heading.where(level: 1): it => {
     // 换页
     pagebreak(weak: true)
@@ -51,57 +52,79 @@
         })
       })
     } else {
-      // 研究生: 16bp 居中黑体
-      set block(above: 27pt, below: 27pt)
-      if language == "chinese" {
-        set text(font: font-sans, size: font-size.sanhao, weight: "regular")
-        align(center, {
+      // 研究生: 三号(16pt)，居中，加粗，段前0.5行，段后0.5行
+      set block(above: 0.5em, below: 0.5em)
+      set text(font: font-main, size: font-size.sanhao)
+      set par(leading: 1em)
+      align(center, {
+        fake-bold({
           if it.numbering != none {
             counter(heading).display(it.numbering)
             h(1em)
           }
           it.body
         })
-      } else {
-        set text(font: font-sans, size: 16pt, weight: "bold")
-        align(center, {
+      })
+    }
+  }
+
+  // 节标题（level 2）：四号，左对齐，加粗，段前0.5行，段后0.5行，行距1行
+  // 中文宋体，英文 Times New Roman
+  show heading.where(level: 2): it => {
+    if is-bachelor {
+      set block(above: 25pt, below: 12pt)
+      set text(font: font-sans, size: 14pt, weight: if language == "english" { "bold" } else { "regular" })
+      {
+        if it.numbering != none {
+          counter(heading).display(it.numbering)
+          h(1em)
+        }
+        it.body
+      }
+    } else {
+      // 研究生: 四号(14pt)，左对齐，加粗，段前0.5行，段后0.5行
+      set block(above: 0.5em, below: 0.5em)
+      set text(font: font-main, size: font-size.sihao)
+      set par(leading: 1em)
+      {
+        fake-bold({
           if it.numbering != none {
-            upper(counter(heading).display(it.numbering))
-            h(0.5em)
+            counter(heading).display(it.numbering)
+            h(1em)
           }
-          upper(it.body)
+          it.body
         })
       }
     }
   }
 
-  // 节标题（level 2）
-  show heading.where(level: 2): it => {
-    let before-skip = if is-bachelor { 25pt } else { 24pt }
-    let after-skip = if is-bachelor { 12pt } else { 6pt }
-    let size = 14pt
-
-    set block(above: before-skip, below: after-skip)
-    set text(font: font-sans, size: size, weight: if language == "english" { "bold" } else { "regular" })
-    {
-      if it.numbering != none {
-        counter(heading).display(it.numbering)
-        h(1em)
-      }
-      it.body
-    }
-  }
-
-  // 小节标题（level 3）
+  // 条标题（level 3）：小四，左对齐，加粗，段前0.5行，段后0.5行，行距1行
+  // 中文宋体，英文 Times New Roman
   show heading.where(level: 3): it => {
-    set block(above: 12pt, below: 6pt)
-    set text(font: font-sans, size: 13pt, weight: if language == "english" { "bold" } else { "regular" })
-    {
-      if it.numbering != none {
-        counter(heading).display(it.numbering)
-        h(1em)
+    if is-bachelor {
+      set block(above: 12pt, below: 6pt)
+      set text(font: font-sans, size: 13pt, weight: if language == "english" { "bold" } else { "regular" })
+      {
+        if it.numbering != none {
+          counter(heading).display(it.numbering)
+          h(1em)
+        }
+        it.body
       }
-      it.body
+    } else {
+      // 研究生: 小四(12pt)，左对齐，加粗，段前0.5行，段后0.5行
+      set block(above: 0.5em, below: 0.5em)
+      set text(font: font-main, size: font-size.xiaosi)
+      set par(leading: 1em)
+      {
+        fake-bold({
+          if it.numbering != none {
+            counter(heading).display(it.numbering)
+            h(1em)
+          }
+          it.body
+        })
+      }
     }
   }
 

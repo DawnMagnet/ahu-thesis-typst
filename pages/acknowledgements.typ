@@ -13,21 +13,22 @@
   body,
 ) = {
   let names = get-names(degree: degree, language: language)
+  let is-graduate = degree in ("master", "doctor")
 
-  // 标题
+  // 致谢标题（三号，居中，宋体，加粗，行距1行，段前0.5行，段后0.5行）
   {
     set text(
-      font: font-sans,
+      font: if is-graduate { font-main } else { font-sans },
       size: if degree == "bachelor" { 15pt } else { font-size.sanhao },
-      weight: if language == "english" and degree != "bachelor" { "bold" } else { "regular" },
     )
+    set par(leading: 1em)
+    set block(above: 0.5em, below: 0.5em)
     align(center, {
-      v(if degree == "bachelor" { 40pt } else { 27pt })
-      names.at("acknowledgements")
-      v(if degree == "bachelor" { 20pt } else { 27pt })
+      fake-bold(names.at("acknowledgements"))
     })
   }
 
+  // 致谢正文（小四，中文宋体，英文TNR）
   body
 
   pagebreak()

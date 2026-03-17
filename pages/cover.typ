@@ -10,27 +10,16 @@
 /// - nocolor: 是否无色模式
 /// - logo: logo 图片内容 (content)
 /// - logo-bw: 黑白 logo 图片内容 (content)
-#let make-cover(
-  info: (:),
-  degree: "doctor",
-  degree-type: "academic",
-  nocolor: false,
-  logo: none,
-  logo-bw: none,
-) = {
+#let make-cover(info: (:), degree: "doctor", degree-type: "academic", nocolor: false, logo: none, logo-bw: none) = {
   let is-graduate = degree in ("master", "doctor")
   if not is-graduate { return }
 
   // 封面自定义页面设置
-  set page(
-    margin: (top: 3.2cm, bottom: 4.4cm, left: 2.5cm, right: 2.5cm),
-    header: none,
-    footer: none,
-  )
+  set page(margin: (top: 3.2cm, bottom: 4.4cm, left: 2.5cm, right: 2.5cm), header: none, footer: none)
 
-  // 中图分类号和论文编号
+  // 中图分类号和论文编号（头部信息栏：五号，加粗，中文黑体，英文TNR）
   {
-    set text(size: font-size.wuhao, font: font-heiti)
+    set text(size: font-size.wuhao, font: font-main-en + font-heiti)
     fake-bold(grid(
       columns: (auto,),
       row-gutter: 2mm,
@@ -49,7 +38,6 @@
   })
 
   // 学位论文标题
-  v(12mm)
   align(center, {
     set text(size: 48pt, font: font-xingkai)
     if degree == "doctor" {
@@ -63,19 +51,19 @@
     }
   })
 
-  // 论文标题
-  v(20mm)
+  // 论文标题（32pt，加粗，中文宋体，英文TNR）
+  v(0mm)
   align(center, {
-    set text(size: 32pt)
+    set text(size: 32pt, font: font-main)
     set par(leading: 1.25em)
     fake-bold(info.at("title", default: ""))
   })
 
   v(15mm)
 
-  // 作者信息表格
+  // 作者信息表格（底部信息栏：四号，中文黑体，英文TNR）
   align(center, {
-    set text(font: font-heiti, size: font-size.sihao)
+    set text(font: font-main-en + font-heiti, size: font-size.sihao)
 
     let label-width = if degree-type == "professional" { 6em } else { 4em }
     let value-width = 12em
@@ -93,25 +81,27 @@
       grid(
         columns: (label-width, value-width),
         row-gutter: 6mm,
-        align(left, [作者姓名]), field-value(info.at("author", default: "")),
-
-        align(left, [专业学位类别]), field-value(info.at("discipline", default: "")),
-
-        align(left, [专业学位领域]), field-value(info.at("professional-field", default: "")),
-
-        align(left, [指导教师]), field-value(info.at("supervisor", default: "")),
+        align(left, [作者姓名]),
+        field-value(info.at("author", default: "")),
+        align(left, [专业学位类别]),
+        field-value(info.at("discipline", default: "")),
+        align(left, [专业学位领域]),
+        field-value(info.at("professional-field", default: "")),
+        align(left, [指导教师]),
+        field-value(info.at("supervisor", default: "")),
       )
     } else {
       grid(
         columns: (label-width, value-width),
         row-gutter: 6mm,
-        align(left, [作者姓名]), field-value(info.at("author", default: "")),
-
-        align(left, [一级学科]), field-value(info.at("discipline", default: "")),
-
-        align(left, [二级学科]), field-value(info.at("sub-discipline", default: "")),
-
-        align(left, [指导教师]), field-value(info.at("supervisor", default: "")),
+        align(left, [作者姓名]),
+        field-value(info.at("author", default: "")),
+        align(left, [一级学科]),
+        field-value(info.at("discipline", default: "")),
+        align(left, [二级学科]),
+        field-value(info.at("sub-discipline", default: "")),
+        align(left, [指导教师]),
+        field-value(info.at("supervisor", default: "")),
       )
     }
   })
@@ -123,11 +113,7 @@
 /// - info: 论文信息字典
 /// - language: 语言
 #let make-spine(info: (:), language: "chinese") = {
-  set page(
-    margin: (top: 2cm, bottom: 2cm, left: 1cm, right: 1cm),
-    header: none,
-    footer: none,
-  )
+  set page(margin: (top: 2cm, bottom: 2cm, left: 1cm, right: 1cm), header: none, footer: none)
 
   let title = info.at("spine-title", default: info.at("title", default: ""))
   let author = info.at("spine-author", default: info.at("author", default: ""))

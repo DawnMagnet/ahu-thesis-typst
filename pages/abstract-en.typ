@@ -15,10 +15,10 @@
   let names = get-names(degree: degree, language: "english")
   let is-graduate = degree in ("master", "doctor")
 
-  // 摘要标题
+  // 摘要标题（三号，居中，Times New Roman，加粗）
   {
     set text(
-      font: font-sans,
+      font: font-main-en,
       size: if degree == "bachelor" { 15pt } else { font-size.sanhao },
       weight: "bold",
     )
@@ -29,15 +29,17 @@
     })
   }
 
-  // 摘要正文
-  body
+  // 摘要正文（小四，Times New Roman，行距1.5行，首行缩进2字符）
+  {
+    set text(font: font-main-en, size: font-size.xiaosi)
+    body
+  }
 
-  // 关键词
+  // 关键词（小四，Times New Roman，分隔符英文逗号，末尾无标点）
+  v(0.5em)
   par({
-    v(0.5em)
-    text(weight: "bold")[Keywords:]
-    [ ]
-    keywords.join("; ")
+    text(font: font-main-en, weight: "bold")[Keywords: ]
+    text(font: font-main-en)[#keywords.join(", ")]
   })
 
   if is-graduate {
