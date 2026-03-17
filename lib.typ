@@ -170,10 +170,7 @@
 
   // 页面基本设置
   let margin = get-page-margin(degree: degree)
-  set page(
-    paper: "a4",
-    margin: margin,
-  )
+  set page(paper: "a4", margin: margin)
 
   // 字体设置
   set text(
@@ -184,11 +181,7 @@
   )
 
   // 段落设置
-  set par(
-    leading: 20pt - 12pt, // 行距 20bp
-    first-line-indent: (amount: 2em, all: true),
-    justify: true,
-  )
+  set par(leading: 1.5em, spacing: 1.5em, first-line-indent: (amount: 2em, all: true), justify: true)
 
   // 数学公式编号
   set math.equation(numbering: "(1)")
@@ -196,6 +189,8 @@
   // 图表设置
   set figure(numbering: "1.1")
   set figure.caption(separator: [#h(1em)])
+  // 表的标题置于表上方
+  show figure.where(kind: table): set figure.caption(position: top)
 
   show figure.caption: it => {
     set text(size: font-size.wuhao)
@@ -232,29 +227,17 @@
 
   // 4. 中文摘要
   if abstract-zh-body != none {
-    abstract-zh(
-      degree: degree,
-      language: language,
-      keywords: abstract-zh-keywords,
-      abstract-zh-body,
-    )
+    abstract-zh(degree: degree, language: language, keywords: abstract-zh-keywords, abstract-zh-body)
   }
 
   // 5. 英文摘要
   if abstract-en-body != none {
-    abstract-en(
-      degree: degree,
-      keywords: abstract-en-keywords,
-      abstract-en-body,
-    )
+    abstract-en(degree: degree, keywords: abstract-en-keywords, abstract-en-body)
   }
 
   // 6. 目录
   {
-    set text(
-      font: font-sans,
-      size: if degree == "bachelor" { 15pt } else { font-size.sanhao },
-    )
+    set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
     align(center, {
       v(if degree == "bachelor" { 40pt } else { 27pt })
       names.at("contents")
@@ -263,37 +246,26 @@
   }
 
   {
+    set par(leading: 1em, spacing: 1em)
     set text(size: 12pt)
     show outline.entry.where(level: 1): it => {
       set text(font: font-sans)
       v(6pt, weak: true)
       it
     }
-    outline(
-      title: none,
-      depth: 3,
-      indent: 1em,
-    )
+    outline(title: none, depth: 3, indent: 1em)
   }
 
   pagebreak()
 
   // 7. 符号表
   if denotation-items.len() > 0 {
-    denotation(
-      degree: degree,
-      language: language,
-      items: denotation-items,
-    )
+    denotation(degree: degree, language: language, items: denotation-items)
   }
 
   // ========== 正文部分 ==========
   // 切换为正文页面设置
-  set page(
-    margin: margin,
-    ..make-header-footer(degree: degree, language: language),
-    numbering: "1",
-  )
+  set page(margin: margin, ..make-header-footer(degree: degree, language: language), numbering: "1")
   counter(page).update(1)
 
   // 应用标题样式
@@ -308,10 +280,7 @@
   if bibliography-file != none {
     pagebreak()
     {
-      set text(
-        font: font-sans,
-        size: if degree == "bachelor" { 15pt } else { font-size.sanhao },
-      )
+      set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
       align(center, {
         v(if degree == "bachelor" { 40pt } else { 27pt })
         names.at("bibliography")
@@ -320,11 +289,7 @@
     }
     {
       set text(size: font-size.wuhao)
-      bibliography(
-        bibliography-file,
-        title: none,
-        style: bibliography-style,
-      )
+      bibliography(bibliography-file, title: none, style: bibliography-style)
     }
   }
 
@@ -332,10 +297,7 @@
   if appendix-body != none {
     pagebreak()
     {
-      set text(
-        font: font-sans,
-        size: if degree == "bachelor" { 15pt } else { font-size.sanhao },
-      )
+      set text(font: font-sans, size: if degree == "bachelor" { 15pt } else { font-size.sanhao })
       align(center, {
         v(if degree == "bachelor" { 40pt } else { 27pt })
         names.at("appendix")
@@ -348,20 +310,12 @@
   // 致谢
   if acknowledgements-body != none {
     pagebreak()
-    acknowledgements(
-      degree: degree,
-      language: language,
-      acknowledgements-body,
-    )
+    acknowledgements(degree: degree, language: language, acknowledgements-body)
   }
 
   // 个人简历
   if resume-body != none {
     pagebreak()
-    resume(
-      degree: degree,
-      language: language,
-      resume-body,
-    )
+    resume(degree: degree, language: language, resume-body)
   }
 }

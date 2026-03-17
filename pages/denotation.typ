@@ -28,8 +28,9 @@
     })
   }
 
-  // 符号列表
+  // 符号列表（单倍行距）
   {
+    set par(leading: 1em, spacing: 1em)
     set text(size: font-size.xiaosi)
     let sym-width = 2.5cm
 
