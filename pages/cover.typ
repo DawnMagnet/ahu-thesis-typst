@@ -10,9 +10,11 @@
 /// - nocolor: 是否无色模式
 /// - logo: logo 图片内容 (content)
 /// - logo-bw: 黑白 logo 图片内容 (content)
-#let make-cover(info: (:), degree: "doctor", degree-type: "academic", nocolor: false, logo: none, logo-bw: none) = {
+#let make-cover(info: (:), degree: "doctor", degree-type: "academic", nocolor: false, logo: none, logo-bw: none, blind: false) = {
   let is-graduate = degree in ("master", "doctor")
   if not is-graduate { return }
+
+  let blind-val(v) = if blind { "***" } else { v }
 
   // 封面自定义页面设置
   set page(margin: (top: 3.2cm, bottom: 4.4cm, left: 2.5cm, right: 2.5cm), header: none, footer: none)
@@ -24,18 +26,20 @@
       columns: (auto,),
       row-gutter: 2mm,
       [中图分类号: #info.at("clc", default: "")],
-      [论文编号: 10357#info.at("student-id", default: "")],
+      if not blind { [论文编号: 10357#info.at("student-id", default: "")] },
     ))
   }
 
-  // 学校 Logo
+  // 学校 Logo（盲审时不显示）
   v(1fr)
-  align(center, {
-    let logo-content = if nocolor { logo-bw } else { logo }
-    if logo-content != none {
-      logo-content
-    }
-  })
+  if not blind {
+    align(center, {
+      let logo-content = if nocolor { logo-bw } else { logo }
+      if logo-content != none {
+        logo-content
+      }
+    })
+  }
 
   // 学位论文标题
   align(center, {
@@ -82,26 +86,26 @@
         columns: (label-width, value-width),
         row-gutter: 6mm,
         align(left, [作者姓名]),
-        field-value(info.at("author", default: "")),
+        field-value(blind-val(info.at("author", default: ""))),
         align(left, [专业学位类别]),
         field-value(info.at("discipline", default: "")),
         align(left, [专业学位领域]),
         field-value(info.at("professional-field", default: "")),
         align(left, [指导教师]),
-        field-value(info.at("supervisor", default: "")),
+        field-value(blind-val(info.at("supervisor", default: ""))),
       )
     } else {
       grid(
         columns: (label-width, value-width),
         row-gutter: 6mm,
         align(left, [作者姓名]),
-        field-value(info.at("author", default: "")),
+        field-value(blind-val(info.at("author", default: ""))),
         align(left, [一级学科]),
         field-value(info.at("discipline", default: "")),
         align(left, [二级学科]),
         field-value(info.at("sub-discipline", default: "")),
         align(left, [指导教师]),
-        field-value(info.at("supervisor", default: "")),
+        field-value(blind-val(info.at("supervisor", default: ""))),
       )
     }
   })
@@ -112,7 +116,8 @@
 /// 生成书脊页
 /// - info: 论文信息字典
 /// - language: 语言
-#let make-spine(info: (:), language: "chinese") = {
+/// - blind: 是否盲审模式
+#let make-spine(info: (:), language: "chinese", blind: false) = {
   set page(margin: (top: 2cm, bottom: 2cm, left: 1cm, right: 1cm), header: none, footer: none)
 
   let title = info.at("spine-title", default: info.at("title", default: ""))
@@ -168,9 +173,9 @@
     set par(leading: 0em)
     vertical-text(title)
     v(1em)
-    vertical-text(author)
+    vertical-text(if blind { "***" } else { author })
     v(1em)
-    vertical-text("安徽大学")
+    vertical-text(if blind { "某高校" } else { "安徽大学" })
     v(1em)
     vertical-text(date + "年")
   })

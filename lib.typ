@@ -70,6 +70,7 @@
 /// - include-spine (bool): 是否包含书脊页
 /// - spine-date (str): 书脊年份
 /// - nocolor (bool): 是否使用黑白 logo
+/// - blind (bool): 是否盲审模式（隐藏姓名、学号、学校 logo 等个人信息）
 /// - bibliography-file (str): 参考文献文件路径
 /// - bibliography-style (str): 参考文献样式
 /// - abstract-zh-body (content): 中文摘要内容
@@ -116,6 +117,7 @@
   include-spine: false,
   spine-date: "",
   nocolor: false,
+  blind: false,
   // ---- 参考文献 ----
   bibliography-file: none,
   bibliography-style: "gb-7714-2015-numeric",
@@ -165,7 +167,7 @@
   // ========== 全局文档设置 ==========
   set document(
     title: if language == "chinese" { title } else { title-en },
-    author: if language == "chinese" { author } else { author-en },
+    author: if blind { "***" } else if language == "chinese" { author } else { author-en },
   )
 
   // 页面基本设置
@@ -218,17 +220,18 @@
     degree: degree,
     degree-type: degree-type,
     nocolor: nocolor,
+    blind: blind,
     logo: image("figures/ahulogo.pdf", width: 8.5cm),
     logo-bw: image("figures/ahublack.pdf", width: 8.5cm),
   )
 
   // 1.5. 书脊（可选）
   if include-spine {
-    make-spine(info: info, language: language)
+    make-spine(info: info, language: language, blind: blind)
   }
 
   // 2. 提名页
-  make-titlepage(info: info, degree: degree, degree-type: degree-type)
+  make-titlepage(info: info, degree: degree, degree-type: degree-type, blind: blind)
 
   // 3. 版权声明
   make-copyright-page(degree: degree)
@@ -292,7 +295,7 @@
   set page(
     margin: margin,
     header-ascent: 10mm,
-    ..make-header-footer(degree: degree, language: language),
+    ..make-header-footer(degree: degree, language: language, blind: blind),
     numbering: "1",
   )
   counter(page).update(1)
@@ -336,14 +339,14 @@
     appendix-body
   }
 
-  // 致谢
-  if acknowledgements-body != none {
+  // 致谢（盲审模式下不输出，避免泄露个人信息）
+  if acknowledgements-body != none and not blind {
     pagebreak()
     acknowledgements(degree: degree, language: language, acknowledgements-body)
   }
 
-  // 个人简历
-  if resume-body != none {
+  // 个人简历（盲审模式下不输出）
+  if resume-body != none and not blind {
     pagebreak()
     resume(degree: degree, language: language, resume-body)
   }

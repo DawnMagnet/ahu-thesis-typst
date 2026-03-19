@@ -35,7 +35,7 @@
 }
 
 /// 研究生英文标题页
-#let titlepage-graduate-en(info: (:), degree: "doctor") = {
+#let titlepage-graduate-en(info: (:), degree: "doctor", blind: false) = {
   set page(margin: (top: 7cm, bottom: 4.5cm, left: 2.5cm, right: 2.5cm), header: none, footer: none)
 
   // 英文论文标题（小二，居中，TNR，加粗，行距1行，段前段后0行）
@@ -72,9 +72,9 @@
       columns: (6em, value-width),
       row-gutter: 10mm,
       align(left, strong[Candidate:]),
-      field-value(info.at("author-en", default: "")),
+      field-value(if blind { "***" } else { info.at("author-en", default: "") }),
       align(left, strong[Supervisor:]),
-      field-value(info.at("supervisor-en", default: "")),
+      field-value(if blind { "***" } else { info.at("supervisor-en", default: "") }),
     )
   })
 
@@ -82,8 +82,10 @@
 }
 
 /// 研究生中文提名页
-#let titlepage-graduate-zh(info: (:), degree: "doctor", degree-type: "academic") = {
+#let titlepage-graduate-zh(info: (:), degree: "doctor", degree-type: "academic", blind: false) = {
   set page(margin: (top: 3.1cm, bottom: 6.5cm, left: 2.5cm, right: 2.5cm), header: none, footer: none)
+
+  let blind-val(v) = if blind { "***" } else { v }
 
   // 中图分类号和论文编号（头部信息栏：五号，加粗，中文黑体，英文TNR）
   {
@@ -92,7 +94,7 @@
       columns: (auto,),
       row-gutter: 2mm,
       [中图分类号: #info.at("clc", default: "")],
-      [论文编号: 10357#info.at("student-id", default: "")],
+      if not blind { [论文编号: 10357#info.at("student-id", default: "")] },
     ))
   }
 
@@ -129,13 +131,13 @@
         columns: (0.2fr, 0.3fr, 0.2fr, 0.3fr),
         row-gutter: 3mm,
         [作者姓名],
-        info.at("author", default: ""),
+        blind-val(info.at("author", default: "")),
         [申请学位级别],
         [专业硕士],
         [指导教师姓名],
-        info.at("supervisor", default: ""),
+        blind-val(info.at("supervisor", default: "")),
         [职#h(2em)称],
-        info.at("professional-rank", default: ""),
+        if blind { "***" } else { info.at("professional-rank", default: "") },
         [专业名称],
         info.at("professional-field", default: ""),
         [研究方向],
@@ -154,13 +156,13 @@
         columns: (0.2fr, 0.3fr, 0.2fr, 0.3fr),
         row-gutter: 3mm,
         [作者姓名],
-        info.at("author", default: ""),
+        blind-val(info.at("author", default: "")),
         [申请学位级别],
         info.at("degree-category", default: ""),
         [指导教师姓名],
-        info.at("supervisor", default: ""),
+        blind-val(info.at("supervisor", default: "")),
         [职#h(2em)称],
-        info.at("professional-rank", default: ""),
+        if blind { "***" } else { info.at("professional-rank", default: "") },
         [学科专业],
         info.at("discipline", default: ""),
         [研究方向],
@@ -395,12 +397,13 @@
 /// - info: 论文信息字典
 /// - degree: 学位类型
 /// - degree-type: 学位类别
-#let make-titlepage(info: (:), degree: "doctor", degree-type: "academic") = {
+/// - blind: 是否盲审模式
+#let make-titlepage(info: (:), degree: "doctor", degree-type: "academic", blind: false) = {
   let is-graduate = degree in ("master", "doctor")
 
   if is-graduate {
-    titlepage-graduate-en(info: info, degree: degree)
-    titlepage-graduate-zh(info: info, degree: degree, degree-type: degree-type)
+    titlepage-graduate-en(info: info, degree: degree, blind: blind)
+    titlepage-graduate-zh(info: info, degree: degree, degree-type: degree-type, blind: blind)
   } else if degree == "bachelor" {
     titlepage-bachelor(info: info)
   } else if degree == "postdoc" {

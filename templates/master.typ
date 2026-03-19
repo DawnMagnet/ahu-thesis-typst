@@ -46,6 +46,7 @@
   // ---- 封面选项 ----
   include-spine: false, // 是否生成书脊页
   spine-date: "",
+  blind: false,         // 是否盲审模式（隐藏姓名/学号/导师/校徽，并去除致谢与个人简历）
 
   // ---- 参考文献 ----
   bibliography-file: "refs.bib",
