@@ -211,6 +211,24 @@
   // 引用上角标
   show cite: it => super(it)
 
+  // 以"其中"开头的段落不加首行缩进（公式后变量说明的排版惯例）
+  show par: it => {
+    let b = it.body
+    let leading = if b.func() == text {
+      b.text
+    } else if b.has("children") and b.children.len() > 0 {
+      let f = b.children.first()
+      if f.func() == text { f.text } else { "" }
+    } else { "" }
+
+    if leading.starts-with("其中") {
+      // 负向水平偏移抵消 first-line-indent（与 set par 中 amount: 2em 对应）
+      [#h(-2em)#it.body]
+    } else {
+      it
+    }
+  }
+
   // ========== 前置部分（无页码） ==========
   set page(header: none, footer: none, numbering: none)
 
