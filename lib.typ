@@ -80,6 +80,7 @@
 /// - denotation-items (array): 符号表项
 /// - acknowledgements-body (content): 致谢内容
 /// - resume-body (content): 个人简历内容
+/// - resume-body-blind (content): 盲审版个人简历（隐去姓名等信息），若未提供则盲审时不输出简历
 /// - appendix-body (content): 附录内容
 /// - body (content): 正文内容
 #let ahuthesis(
@@ -130,6 +131,7 @@
   // ---- 后置内容 ----
   acknowledgements-body: none,
   resume-body: none,
+  resume-body-blind: none,
   appendix-body: none,
   // ---- 正文 ----
   body,
@@ -285,7 +287,6 @@
     // 章标题（一级）：小四，行距1.5行，段前0.5行，中文黑体，英文TNR
     show outline.entry.where(level: 1): it => {
       set text(font: font-main-en + font-heiti, size: font-size.xiaosi)
-      v(6pt, weak: true)
       it
     }
     // 节标题（二级）：小四，行距1.5行，中文宋体，英文TNR
@@ -363,9 +364,10 @@
     acknowledgements(degree: degree, language: language, acknowledgements-body)
   }
 
-  // 个人简历（盲审模式下不输出）
-  if resume-body != none and not blind {
+  // 个人简历（盲审时使用 resume-body-blind，未提供则不输出）
+  let resume-content = if blind { resume-body-blind } else { resume-body }
+  if resume-content != none {
     pagebreak()
-    resume(degree: degree, language: language, resume-body)
+    resume(degree: degree, language: language, resume-content)
   }
 }

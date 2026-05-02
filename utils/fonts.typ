@@ -4,10 +4,10 @@
 // ========== 字体族常量 ==========
 
 /// 中文主字体（宋体）
-#let font-songti = ("SimSun", "Noto Serif CJK SC", "Source Han Serif SC", "STSong")
+#let font-songti = ("SimSun", "Source Han Serif SC", "STSong")
 
 /// 中文黑体
-#let font-heiti = ("SimHei", "Noto Sans CJK SC", "Source Han Sans SC", "STHeiti")
+#let font-heiti = ("SimHei", "Source Han Sans SC", "Microsoft YaHei")
 
 /// 伪粗体（通过描边模拟）
 #let fake-bold(body, thickness: 0.3pt) = {
@@ -15,7 +15,7 @@
 }
 
 /// 中文楷体
-#let font-kaiti = ("KaiTi", "STKaiti", "FandolKai")
+#let font-kaiti = ("KaiTi", "STKaiti")
 
 /// 中文仿宋
 // #let font-fangsong = ("FangSong", "STFangsong", "FandolFang")
@@ -25,13 +25,13 @@
 #let font-xingkai = ("STXingkai",)
 
 /// 西文主字体
-#let font-main-en = ("Times New Roman", "TeX Gyre Termes")
+#let font-main-en = ("Times New Roman", "Libertinus Serif", "New Computer Modern")
 
 /// 西文无衬线
-#let font-sans-en = ("Arial", "TeX Gyre Heros")
+#let font-sans-en = ("Arial", "Segoe UI")
 
 /// 西文等宽
-#let font-mono-en = ("Courier New", "TeX Gyre Cursor")
+#let font-mono-en = ("Courier New", "Consolas", "Cascadia Mono")
 
 // ========== 组合字体族 ==========
 
