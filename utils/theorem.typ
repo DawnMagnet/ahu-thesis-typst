@@ -26,7 +26,7 @@
     block(spacing: 0.65em, {
       // 标题行
       {
-        set text(font: ("Times New Roman", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei"))
+        set text(font: ("Times New Roman", "SimHei"))
         strong({
           env-name
           if numbered {
@@ -57,7 +57,7 @@
 
   block(spacing: 0.65em, {
     {
-      set text(font: ("Times New Roman", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei"))
+      set text(font: ("Times New Roman", "SimHei"))
       strong(env-name)
     }
     [ ]

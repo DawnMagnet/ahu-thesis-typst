@@ -4,10 +4,10 @@
 // ========== 字体族常量 ==========
 
 /// 中文主字体（宋体）
-#let font-songti = ("SimSun", "Source Han Serif SC", "STSong")
+#let font-songti = ("SimSun",)
 
 /// 中文黑体
-#let font-heiti = ("SimHei", "Source Han Sans SC", "Microsoft YaHei")
+#let font-heiti = ("SimHei",)
 
 /// 伪粗体（通过描边模拟）
 #let fake-bold(body, thickness: 0.3pt) = {
@@ -15,7 +15,7 @@
 }
 
 /// 中文楷体
-#let font-kaiti = ("KaiTi", "STKaiti")
+#let font-kaiti = font-songti
 
 /// 中文仿宋
 // #let font-fangsong = ("FangSong", "STFangsong", "FandolFang")
@@ -25,13 +25,13 @@
 #let font-xingkai = ("STXingkai",)
 
 /// 西文主字体
-#let font-main-en = ("Times New Roman", "Libertinus Serif", "New Computer Modern")
+#let font-main-en = ("Times New Roman",)
 
 /// 西文无衬线
-#let font-sans-en = ("Arial", "Segoe UI")
+#let font-sans-en = ()
 
 /// 西文等宽
-#let font-mono-en = ("Courier New", "Consolas", "Cascadia Mono")
+#let font-mono-en = font-main-en
 
 // ========== 组合字体族 ==========
 
