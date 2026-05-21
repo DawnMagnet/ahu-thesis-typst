@@ -340,6 +340,10 @@
     }
     {
       set text(size: font-size.wuhao)
+      // GB/T 样式在中文环境下会把英文作者截断词也排成“等”，这里仅修正拉丁作者串。
+      show regex("(\\p{Lu}[\\p{Alphabetic} .\\-]*, ){2,}\\p{Lu}[\\p{Alphabetic} .\\-]*, 等\\."): it => {
+        it.text.replace("等.", "et al.")
+      }
       bibliography(bibliography-file, title: none, style: bibliography-style)
     }
   }
