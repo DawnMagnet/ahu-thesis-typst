@@ -241,8 +241,8 @@
     degree-type: degree-type,
     nocolor: nocolor,
     blind: blind,
-    logo: image("figures/ahulogo.pdf", width: 8.5cm),
-    logo-bw: image("figures/ahublack.pdf", width: 8.5cm),
+    logo: image("figures/ahulogo.svg", width: 8.5cm),
+    logo-bw: image("figures/ahublack.svg", width: 8.5cm),
   )
 
   // 1.5. 书脊（可选）
